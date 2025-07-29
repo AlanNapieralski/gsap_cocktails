@@ -3,15 +3,15 @@ import { ScrollTrigger, SplitText } from 'gsap/all'
 import { gsap } from 'gsap'
 import Navbar from './components/Navbar.vue'
 import Hero from './components/Hero.vue'
+import Cocktails from './components/Cocktails.vue'
 
 gsap.registerPlugin(ScrollTrigger, SplitText)
-
 </script>
 
 <template>
 <main>
     <Navbar />
     <Hero />
-    <div class="h-dvh bg-black"></div>
+    <Cocktails />
 </main>
 </template>
