@@ -1,10 +1,14 @@
 <script setup lang="ts">
     import { gsap } from 'gsap'
     import { ScrollTrigger, SplitText } from 'gsap/all'
-    import { onMounted } from 'vue'
+    import { onMounted, ref } from 'vue'
+    import { useMediaQuery } from '@vueuse/core'
 
     gsap.registerPlugin(ScrollTrigger, SplitText)
 
+    const videoRef = ref<HTMLVideoElement | null>(null)
+
+    const isMobile = useMediaQuery('(max-width: 767px)')
     
     onMounted(() => {
         const heroSplit = new SplitText('.title', {
@@ -44,7 +48,24 @@
             .to('.right-leaf', { y: 200 }, 0)
             .to('.left-leaf', { y: -200 }, 0)
 
+        const startValue = isMobile.value ? 'top 50%' : 'center 60%'
+        const endValue = isMobile.value ? '120% top' : 'bottom top'
 
+        const tl = gsap.timeline({ scrollTrigger: {
+            trigger: 'video',
+            start: startValue,
+            end: endValue,
+            scrub: true,
+            pin: true,
+        }})
+
+        if (videoRef.value) {
+            videoRef.value.onloadedmetadata = () => {
+                tl.to(videoRef.value, {
+                    currentTime: videoRef.value?.duration
+                })
+            }
+        }
     })
 </script>
 
@@ -74,4 +95,7 @@
             </div>
         </div> 
     </section>
+    <div class="video absolute inset-0">
+        <video ref="videoRef" src="/videos/output.mp4" muted playsinline preload="auto"></video>
+    </div>
 </template>
