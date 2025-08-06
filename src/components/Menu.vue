@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { sliderLists as AllCocktails } from '../../constants'
+import { sliderLists } from '../../constants'
 import { ref, computed, watch } from 'vue'
 import gsap from 'gsap'
 
@@ -10,16 +10,15 @@ const currentIndex = ref(0)
 
 const isActive = (index: number) => index === currentIndex.value
 
-const totalCocktails = AllCocktails.length
+const totalCocktails = sliderLists.length
 
 const goToSlide = (index: number) => {
     currentIndex.value = (index + totalCocktails) % totalCocktails
 }
 
-// Make these computed properties so they're reactive
-const currentCocktail = computed(() => AllCocktails[currentIndex.value])
-const prevCocktail = computed(() => AllCocktails[(currentIndex.value - 1 + totalCocktails) % totalCocktails])
-const nextCocktail = computed(() => AllCocktails[(currentIndex.value + 1) % totalCocktails])
+const currentCocktail = computed(() => sliderLists[currentIndex.value])
+const prevCocktail = computed(() => sliderLists[(currentIndex.value - 1 + totalCocktails) % totalCocktails])
+const nextCocktail = computed(() => sliderLists[(currentIndex.value + 1) % totalCocktails])
 
 watch(currentIndex, () => {
     gsap.fromTo('#title', {
@@ -28,7 +27,7 @@ watch(currentIndex, () => {
         opacity: 1,
         duration: 1,
     })
-    gsap.fromTo('.cocktail_img', {
+    gsap.fromTo('.cocktail-img', {
         opacity: 0,
         xPercent: -100,
     }, {
@@ -67,7 +66,7 @@ watch(currentIndex, () => {
 
         <nav class="cocktail-tabs" aria-label="Cocktail Navigation">
             <button 
-                v-for="(cocktail, index) in AllCocktails" 
+                v-for="(cocktail, index) in sliderLists" 
                 :key="index" 
                 :class="isActive(index) ? 'text-white border-white' : 'text-white/50 border-white/50'"
                 @click="goToSlide(index)"
@@ -90,7 +89,7 @@ watch(currentIndex, () => {
                 </button>
             </div>
             <div class="cocktail">
-                <img :src="currentCocktail.image" alt="cocktail-image">
+                <img :src="currentCocktail.image" alt="cocktail-image" class="cocktail-img">
             </div>
             <div class="recipe">
                 <div ref="contentRef" class="info">
