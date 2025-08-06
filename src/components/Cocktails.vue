@@ -4,7 +4,6 @@
     import gsap from 'gsap';
     import { onMounted } from 'vue';
 
-
     onMounted(() => {
         const parallaxTimeline = gsap.timeline({
             scrollTrigger: {

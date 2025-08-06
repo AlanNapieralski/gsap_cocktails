@@ -20,9 +20,9 @@ onMounted(() => {
 		start,
 		end: 'bottom center',
 		scrub: 1.5,
-		pin: true
-	 }
-	})
+        pin: true,
+     },
+    })
 	
 	maskTimeline
 	 .to('.will-fade', { opacity: 0, stagger: 0.2, ease: 'power1.inOut', })
